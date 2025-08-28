@@ -1,37 +1,24 @@
 @import "tailwindcss";
 
-/* Reset box-sizing i margin/padding za sve elemente */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* Forsiraj fiksnu skalu na svim uređajima */
-html, body {
-  zoom: 1; /* alternativno: transform: scale(1); transform-origin: top left; */
-}
-
-/* CSS varijable za svetli i tamni mod */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #000000;
+    --background:  #000000;
     --foreground: #ededed;
   }
 }
 
-/* Globalni stilovi za body */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-
 /* Uklanja sivo pozadinsko sjenčenje GrapesJS-a */
 .gjs-editor,
 .gjs-one-bg,
