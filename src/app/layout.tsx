@@ -27,7 +27,6 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
 
-  // stranice koje trebaju biti fullscreen (bez sidebar/statusbar)
   const isAuthPage = pathname === "/login" || pathname === "/register";
   const isEditorPage = pathname === "/editor";
 
@@ -36,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Važno: meta viewport za konsistentnu veličinu */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
@@ -43,16 +43,14 @@ export default function RootLayout({
       >
         <SessionProvider>
           <QueryClientProvider client={queryClient}>
-            {/* samo prikazuj statusbar i sidebar ako nismo na auth ili editor stranici */}
+            {/* Statusbar i Sidebar prikazujemo samo na normalnim stranicama */}
             {!isAuthPage && !isEditorPage && (
               <>
-                {/* fixed Statusbar */}
                 <div className="fixed top-0 left-0 right-0 z-20">
                   <StatusBar />
                 </div>
 
-                {/* fixed Sidebar */}
-                <div className="fixed top-[65px] left-0 right-0 z-10">
+                <div className="fixed top-16 left-0 right-0 z-10">
                   <Sidebar />
                 </div>
               </>
@@ -61,14 +59,14 @@ export default function RootLayout({
             <main
               className={
                 !isAuthPage && !isEditorPage
-                  ? "container mx-auto px-6 py-4 h-[calc(100vh-4rem)] overflow-auto"
+                  ? "flex flex-col h-screen overflow-auto"
                   : "h-screen w-screen"
               }
             >
               <div
                 className={
                   !isAuthPage && !isEditorPage
-                    ? "max-w-7xl mx-auto px-6 py-4"
+                    ? "flex-1 max-w-7xl mx-auto w-full px-4 py-4 mt-16" // mt-16 rezerviše prostor za StatusBar
                     : "w-full h-full"
                 }
               >
