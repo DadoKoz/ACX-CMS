@@ -36,7 +36,7 @@ export default function RootLayout({
   useEffect(() => {
     // Pokrećemo samo u produkciji (Vercel)
     if (process.env.NODE_ENV === "production") {
-      const scale = 0.4; // blago udaljavanje (samo 2%)
+      const scale = 0.85; // blago udaljavanje (samo 2%)
       document.body.style.transform = `scale(${scale})`;
       document.body.style.transformOrigin = "top left";
       document.body.style.width = `${100 / scale}vw`;
