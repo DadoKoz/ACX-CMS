@@ -61,8 +61,8 @@ export default function RootLayout({
             <main
               className={
                 !isAuthPage && !isEditorPage
-                  ? "pl-[70px] pt-[65px] h-[calc(100vh-65px)] overflow-auto"
-                  : "h-screen w-screen" // fullscreen layout za auth + editor stranice
+                  ? "container mx-auto px-6 py-4 h-[calc(100vh-4rem)] overflow-auto"
+                  : "h-screen w-screen"
               }
             >
               <div
