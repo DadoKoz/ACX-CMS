@@ -34,16 +34,16 @@ export default function RootLayout({
   const queryClient = new QueryClient();
 
   useEffect(() => {
+    // Pokrećemo samo u produkciji (Vercel)
     if (process.env.NODE_ENV === "production") {
       const dpr = window.devicePixelRatio;
-      if (dpr > 1.2) {
-        // skaliramo samo ako DPR veći od 1.2
-        const scale = 1 / dpr;
-        document.body.style.transform = `scale(${scale})`;
-        document.body.style.transformOrigin = "top left";
-        document.body.style.width = `${100 / scale}vw`;
-        document.body.style.height = `${100 / scale}vh`;
-      }
+      const factor = 0.95; // blago udaljavanje (5% smanjenje)
+      const scale = factor / dpr; // kombinujemo DPR i blagi faktor
+
+      document.body.style.transform = `scale(${scale})`;
+      document.body.style.transformOrigin = "top left";
+      document.body.style.width = `${100 / scale}vw`;
+      document.body.style.height = `${100 / scale}vh`;
     }
   }, []);
 
