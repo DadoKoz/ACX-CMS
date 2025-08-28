@@ -21,7 +21,7 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex justify-center rounded-b-2xl w-[300px] mx-auto bg-white/7 p-2">
+    <nav className="flex flex-col justify-center rounded-r-2xl w-[70px] h-[350px] mx-auto bg-white/7 p-2">
       {navItems.map(({ href, icon: Icon, label }) => {
         const isActive = pathname === href;
         return (

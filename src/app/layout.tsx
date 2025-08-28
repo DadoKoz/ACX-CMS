@@ -46,11 +46,13 @@ export default function RootLayout({
             {/* Statusbar i Sidebar prikazujemo samo na normalnim stranicama */}
             {!isAuthPage && !isEditorPage && (
               <>
+                {/* StatusBar na vrhu */}
                 <div className="fixed top-0 left-0 right-0 z-20">
                   <StatusBar />
                 </div>
 
-                <div className="fixed top-16 left-0 right-0 z-10">
+                {/* Sidebar fiksiran uz levu ivicu i vertikalno centriran */}
+                <div className="fixed top-1/2 left-0 transform -translate-y-1/2 z-10">
                   <Sidebar />
                 </div>
               </>
