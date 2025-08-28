@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import { useEffect } from "react";
 
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -31,6 +32,17 @@ export default function RootLayout({
   const isEditorPage = pathname === "/editor";
 
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    // Pokrećemo samo u produkciji (Vercel)
+    if (process.env.NODE_ENV === "production") {
+      const scale = 1 / window.devicePixelRatio; // Korekcija za HiDPI / Retina
+      document.body.style.transform = `scale(${scale})`;
+      document.body.style.transformOrigin = "top left";
+      document.body.style.width = `${100 / scale}vw`;
+      document.body.style.height = `${100 / scale}vh`;
+    }
+  }, []);
 
   return (
     <html lang="en">
