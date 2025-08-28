@@ -37,7 +37,7 @@ const Sidebar = () => {
             {/* <span className="text-xs mt-1 opacity-80">{label}</span> */}
 
             {/* Tooltip */}
-            <span className="absolute top-full mt-1 opacity-0 group-hover:opacity-100 transition bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+            <span className="absolute left-full ml-1 opacity-0 group-hover:opacity-100 transition bg-black/70 text-white text-sm px-2 py-1 rounded whitespace-nowrap">
               {label}
             </span>
           </Link>
