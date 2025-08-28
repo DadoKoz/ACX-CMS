@@ -72,14 +72,19 @@ export default function RootLayout({
               className={
                 !isAuthPage && !isEditorPage
                   ? "flex flex-col h-screen overflow-auto"
-                  : "h-screen w-screen"
+                  : "h-screen w-screen flex justify-center items-center"
               }
             >
               <div
                 className={
                   !isAuthPage && !isEditorPage
-                    ? "flex-1 max-w-7xl mx-auto w-full px-4 py-4 mt-16" // mt-16 rezerviše prostor za StatusBar
-                    : "w-full h-full"
+                    ? "flex-1 max-w-7xl mx-auto w-full px-4 py-4 mt-16"
+                    : "w-full max-w-[98%] max-h-[98%]"
+                }
+                style={
+                  isAuthPage || isEditorPage
+                    ? { transform: "scale(0.98)", transformOrigin: "top left" }
+                    : undefined
                 }
               >
                 {children}
