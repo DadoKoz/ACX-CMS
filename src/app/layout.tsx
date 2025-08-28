@@ -36,10 +36,7 @@ export default function RootLayout({
   useEffect(() => {
     // Pokrećemo samo u produkciji (Vercel)
     if (process.env.NODE_ENV === "production") {
-      const dpr = window.devicePixelRatio;
-      const factor = 0.95; // blago udaljavanje (5% smanjenje)
-      const scale = factor / dpr; // kombinujemo DPR i blagi faktor
-
+      const scale = 0.98; // blago udaljavanje (samo 2%)
       document.body.style.transform = `scale(${scale})`;
       document.body.style.transformOrigin = "top left";
       document.body.style.width = `${100 / scale}vw`;
