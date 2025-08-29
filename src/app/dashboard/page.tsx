@@ -77,11 +77,12 @@ const DashboardPage = () => {
       </div>
 
       {/* Grid: Editor + Objavljene vijesti */}
+      {/* Grid: Editor + Objavljene vijesti */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Card 1: Uđi u Editor */}
         <Link
           href="/editor"
-          className="bg-white/5  rounded-[30px] p-6 flex flex-col justify-center items-center hover:bg-white/7 transition"
+          className="bg-white/5 rounded-[30px] p-6 flex flex-col justify-center items-center hover:bg-white/7 transition h-[400px]" // 👈 dodaj fiksnu visinu
         >
           <h2 className="text-xl font-semibold mb-2 text-yellow/80">
             Uđi u Editor
@@ -95,15 +96,16 @@ const DashboardPage = () => {
         </Link>
 
         {/* Card 2: Objavljene vijesti */}
-        <div className="bg-white/5  rounded-[30px] p-6 flex flex-col">
+        <div className="bg-white/5 rounded-[30px] p-6 flex flex-col h-[400px]">
+          {" "}
+          {/* 👈 fiksna visina */}
           <h2 className="text-xl font-semibold mb-4 text-yellow/80">
             Objavljene vijesti
           </h2>
-
           {loading && <p className="text-[#FFFF00]">Učitavanje...</p>}
           {error && <p className="text-red-400">{error}</p>}
-
-          <div className="flex flex-col gap-4 max-h-[350px] overflow-y-auto pr-2">
+          {/* Scrollable lista */}
+          <div className="flex flex-col gap-4 overflow-y-auto pr-2">
             {articles.map((a) => {
               const img = a.image || extractImage(a.contentHtml);
               return (
@@ -131,7 +133,7 @@ const DashboardPage = () => {
 
                   {/* Edit ikona */}
                   <Link
-                    href={`/news/${a.slug}`} // vodi na editor za tu vijest
+                    href={`/news/${a.slug}`}
                     className="text-yellow hover:text-yellow/80 transition p-2 rounded-full"
                   >
                     <Edit3 className="w-5 h-5 text-[#FFFF00]" />

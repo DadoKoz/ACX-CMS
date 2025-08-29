@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
   const isPublic = publicPaths.some((path) => req.nextUrl.pathname.startsWith(path));
 
   if (!isAuthenticated && !isPublic) {
-    console.log("🔒 Blocked unauthenticated access to:", req.nextUrl.pathname);
+    console.log(" Blocked unauthenticated access to:", req.nextUrl.pathname);
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
