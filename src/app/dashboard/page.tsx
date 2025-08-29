@@ -49,7 +49,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-2xl mx-auto text-white mt-30">
+    <div className="w-full max-w-screen-2xl mx-auto text-white mt-20">
       {/* Naslov */}
       {/* <h1 className="text-3xl font-bold mb-8">Dashboard</h1> */}
 
