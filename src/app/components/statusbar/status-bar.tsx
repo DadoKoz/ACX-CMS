@@ -40,25 +40,24 @@ const StatusBar = () => {
 
       {/* User avatar + username */}
       {status === "authenticated" && session.user && (
-        <div
-          className="ml-auto relative flex items-center gap-2"
-          ref={dropdownRef}
-        >
-          <span className="text-[#FFFF00] font-medium">
-            {session.user.name}
-          </span>
-          <button
-            className="p-2 rounded-full transition-all duration-200 hover:bg-white/10 active:bg-white/20"
+        <div className="ml-auto relative" ref={dropdownRef}>
+          {/* ime + avatar */}
+          <div
+            className="flex items-center gap-2 cursor-pointer"
             onClick={() => setDropdownOpen((prev) => !prev)}
           >
+            <span className="text-[#FFFF00] font-medium">
+              {session.user.name}
+            </span>
             <CircleUserRound className="w-6 h-6 text-white/70 hover:text-white" />
-          </button>
+          </div>
 
+          {/* dropdown ispod avatara */}
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-40 border border-gray-800 rounded-2xl shadow-md z-50 pointer-events-auto">
+            <div className="absolute right-0 mt-2 w-40 bg-black border border-gray-800 text-white rounded-lg shadow-md z-50 pointer-events-auto">
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-white rounded"
+                className="w-full text-left px-4 py-2  hover:bg-white/30 rounded"
               >
                 Logout
               </button>
