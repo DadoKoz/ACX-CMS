@@ -9,10 +9,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // za spinner
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     const res = await signIn("credentials", {
       email,
       password,
@@ -24,7 +28,14 @@ export default function LoginPage() {
     } else {
       setError("Neispravni podaci");
     }
+
+    setLoading(false);
   };
+
+  // Spinner unutar dugmeta
+  const ButtonSpinner = () => (
+    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto" />
+  );
 
   return (
     <div className="flex w-screen h-screen">
@@ -37,7 +48,6 @@ export default function LoginPage() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/30" />{" "}
-        {/* opcionalni overlay */}
       </div>
 
       {/* Desna polovina - login forma */}
@@ -90,9 +100,10 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full py-3 rounded-lg font-semibold bg-[#FFFF00] text-black transition"
+              className="w-full py-3 rounded-lg font-semibold bg-[#FFFF00] text-black flex justify-center items-center gap-2 transition"
+              disabled={loading} // sprečava dupli klik
             >
-              Prijavi se
+              {loading ? <ButtonSpinner /> : "Prijavi se"}
             </button>
 
             <div className="text-sm text-center mt-4 text-gray-400">
