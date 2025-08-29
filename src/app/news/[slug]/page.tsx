@@ -34,10 +34,10 @@ export default function NewsPage() {
     return <p className="p-10 text-red-400">Vijest nije pronađena.</p>;
 
   return (
-    <div className="max-w-4xl mx-auto py-10 text-white border border-gray-800 mt-50 p-20 rounded-4xl mr-55">
+    <div className="max-w-4xl mx-auto py-10 text-white  mt-30 p-20 rounded-4xl mr-55">
       <h1 className="text-3xl font-bold mb-6">{article.title}</h1>
 
-      {/* ✅ prikaz sa CSS + HTML kao u NewsDetailPage */}
+      {/* ✅ prikaz sa CSS + HTML - u NewsDetailPage */}
       <div className="news-content prose prose-invert relative max-w-none">
         {article.contentCss && (
           <style dangerouslySetInnerHTML={{ __html: article.contentCss }} />
