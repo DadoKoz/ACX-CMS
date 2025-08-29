@@ -24,6 +24,9 @@ const DashboardPage = () => {
   const fetchArticles = async () => {
     setLoading(true);
     setError("");
+    const minLoadingTime = 800; // minimalno trajanje spinnera u ms
+    const startTime = Date.now();
+
     try {
       const res = await fetch("/api/posts");
       if (!res.ok) throw new Error("Greška pri dohvaćanju vijesti");
@@ -32,9 +35,24 @@ const DashboardPage = () => {
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      const elapsed = Date.now() - startTime;
+      const remaining = minLoadingTime - elapsed;
+      if (remaining > 0) {
+        setTimeout(() => setLoading(false), remaining);
+      } else {
+        setLoading(false);
+      }
     }
   };
+
+  const AdvancedSpinner = () => (
+    <div className="flex justify-center items-center py-20">
+      <div className="relative w-12 h-12">
+        <div className="absolute inset-0 rounded-full border-4 border-yellow-400 opacity-50 animate-ping"></div>
+        <div className="absolute inset-0 rounded-full border-4 border-yellow-400 border-t-transparent animate-spin"></div>
+      </div>
+    </div>
+  );
 
   useEffect(() => {
     fetchArticles();
@@ -50,9 +68,6 @@ const DashboardPage = () => {
 
   return (
     <div className="w-full max-w-screen-2xl mx-auto text-white mt-20">
-      {/* Naslov */}
-      {/* <h1 className="text-3xl font-bold mb-8">Dashboard</h1> */}
-
       {/* Statistic Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {[
@@ -77,12 +92,11 @@ const DashboardPage = () => {
       </div>
 
       {/* Grid: Editor + Objavljene vijesti */}
-      {/* Grid: Editor + Objavljene vijesti */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Card 1: Uđi u Editor */}
         <Link
           href="/editor"
-          className="bg-white/5 rounded-[30px] p-6 flex flex-col justify-center items-center hover:bg-white/7 transition h-[400px]" // 👈 dodaj fiksnu visinu
+          className="bg-white/5 rounded-[30px] p-6 flex flex-col justify-center items-center hover:bg-white/7 transition h-[400px]"
         >
           <h2 className="text-xl font-semibold mb-2 text-yellow/80">
             Uđi u Editor
@@ -97,14 +111,11 @@ const DashboardPage = () => {
 
         {/* Card 2: Objavljene vijesti */}
         <div className="bg-white/5 rounded-[30px] p-6 flex flex-col h-[400px]">
-          {" "}
-          {/* 👈 fiksna visina */}
           <h2 className="text-xl font-semibold mb-4 text-yellow/80">
             Objavljene vijesti
           </h2>
-          {loading && <p className="text-[#FFFF00]">Učitavanje...</p>}
+          {loading && <AdvancedSpinner />}
           {error && <p className="text-red-400">{error}</p>}
-          {/* Scrollable lista */}
           <div className="flex flex-col gap-4 overflow-y-auto pr-2">
             {articles.map((a) => {
               const img = a.image || extractImage(a.contentHtml);
@@ -131,7 +142,6 @@ const DashboardPage = () => {
                     )}
                   </div>
 
-                  {/* Edit ikona */}
                   <Link
                     href={`/news/${a.slug}`}
                     className="text-yellow hover:text-yellow/80 transition p-2 rounded-full"
