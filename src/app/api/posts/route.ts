@@ -1,11 +1,7 @@
 import { prisma } from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
 
-const ALLOWED_ORIGIN = 
-  process.env.FRONTEND_URL === "https://acx-cms.vercel.app"
-    ? "https://acx-cms.vercel.app"
-    : process.env.FRONTEND_URL || "http://localhost:3000";
-
+const ALLOWED_ORIGIN = process.env.FRONTEND_URL || "http://localhost:3000";
 
 
 function withCors(res: NextResponse) {
