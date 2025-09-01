@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import NewsFormPage from "@/app/news-form/page"; // import forme
+import NewsFormPage from "@/app/components/add-news/add-news-form";
 
 type Post = {
   slug: string;
