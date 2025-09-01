@@ -18,18 +18,31 @@ model User {
 }
 
 model Post {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  category    String?
-  image       String?
-  summary     String?
-  contentHtml String
-  contentCss  String?  // NOVO: čuvamo CSS iz GrapeJS-a
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  title           String
+  subtitle        String?
+  summary         String?
+  image           String?
+  gallery         String[]  @default([])
+  videoUrl        String?
+  author          String?
+  source          String?
+  category        String?
+  tags            String[]  @default([])
+  metaTitle       String?
+  metaDescription String?
+  status          String?   @default("draft")
+  publishDate     DateTime?
+  readingTime     Int?
+  contentHtml     String?
+  contentCss      String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
+
+
+
 
 
 model VerificationCode {

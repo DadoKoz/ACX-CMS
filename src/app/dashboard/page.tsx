@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Edit3 } from "lucide-react";
 
 type Article = {
@@ -11,12 +12,13 @@ type Article = {
   title: string;
   summary?: string;
   image?: string;
-  contentHtml: string;
+  contentHtml?: string;
   createdAt: string;
 };
 
 const DashboardPage = () => {
-  const { data, status } = useSession();
+  const { data } = useSession();
+  const router = useRouter();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -24,9 +26,6 @@ const DashboardPage = () => {
   const fetchArticles = async () => {
     setLoading(true);
     setError("");
-    const minLoadingTime = 800; // minimalno trajanje spinnera u ms
-    const startTime = Date.now();
-
     try {
       const res = await fetch("/api/posts");
       if (!res.ok) throw new Error("Greška pri dohvaćanju vijesti");
@@ -35,15 +34,13 @@ const DashboardPage = () => {
     } catch (err: any) {
       setError(err.message);
     } finally {
-      const elapsed = Date.now() - startTime;
-      const remaining = minLoadingTime - elapsed;
-      if (remaining > 0) {
-        setTimeout(() => setLoading(false), remaining);
-      } else {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
 
   const AdvancedSpinner = () => (
     <div className="flex justify-center items-center py-20">
@@ -54,21 +51,19 @@ const DashboardPage = () => {
     </div>
   );
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
-
-  const extractImage = (html?: string) => {
-    if (!html) return null;
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const img = doc.querySelector("img");
-    return img ? img.getAttribute("src") : null;
+  const getValidImage = (article: Article) => {
+    if (!article.image) return null;
+    try {
+      new URL(article.image);
+      return article.image;
+    } catch {
+      return null;
+    }
   };
 
   return (
     <div className="w-full max-w-screen-2xl mx-auto text-white mt-20">
-      {/* Statistic Cards */}
+      {/* Statistika */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {[
           { title: "Ukupno vijesti", value: articles.length },
@@ -91,34 +86,31 @@ const DashboardPage = () => {
         ))}
       </div>
 
-      {/* Grid: Editor + Objavljene vijesti */}
+      {/* Grid: Dugme za formu i objavljene vijesti */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Card 1: Uđi u Editor */}
-        <Link
-          href="/editor"
-          className="bg-white/5 rounded-[30px] p-6 flex flex-col justify-center items-center hover:bg-white/7 transition h-[400px]"
-        >
-          <h2 className="text-xl font-semibold mb-2 text-yellow/80">
-            Uđi u Editor
+        {/* Dugme za formu */}
+        <div className="bg-white/5 rounded-[30px] p-6 flex flex-col items-center justify-center h-[400px]">
+          <h2 className="text-xl font-semibold mb-6 text-yellow/80 text-center">
+            Dodaj novu vijest
           </h2>
-          <p className="text-gray-300 text-sm text-center mb-4">
-            Kreiraj ili uređuj vijesti brzo i jednostavno.
-          </p>
-          <span className="inline-block bg-yellow text-[#FFFF00] px-4 py-2 rounded-lg font-semibold hover:bg-yellow/90 transition">
-            Otvori Editor
-          </span>
-        </Link>
+          <button
+            onClick={() => router.push("/news-form")}
+            className="inline-block bg-[#FFFF00] text-black px-6 py-3 rounded-lg font-semibold  transition"
+          >
+            Otvori Formu
+          </button>
+        </div>
 
-        {/* Card 2: Objavljene vijesti */}
-        <div className="bg-white/5 rounded-[30px] p-6 flex flex-col h-[400px]">
+        {/* Objavljene vijesti */}
+        <div className="bg-white/5 rounded-[30px] p-6 flex flex-col h-[400px] overflow-y-auto">
           <h2 className="text-xl font-semibold mb-4 text-yellow/80">
             Objavljene vijesti
           </h2>
           {loading && <AdvancedSpinner />}
           {error && <p className="text-red-400">{error}</p>}
-          <div className="flex flex-col gap-4 overflow-y-auto pr-2">
+          <div className="flex flex-col gap-4">
             {articles.map((a) => {
-              const img = a.image || extractImage(a.contentHtml);
+              const img = getValidImage(a);
               return (
                 <div
                   key={a.id}
@@ -141,7 +133,6 @@ const DashboardPage = () => {
                       </p>
                     )}
                   </div>
-
                   <Link
                     href={`/news/${a.slug}`}
                     className="text-yellow hover:text-yellow/80 transition p-2 rounded-full"

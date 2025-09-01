@@ -1,45 +1,54 @@
+// app/form-editor/[slug]/page.tsx
 "use client";
 
-import { use } from "react";
 import { useEffect, useState } from "react";
-import GrapesEditor from "@/app/components/editor/GrapesEditor";
+import { useParams } from "next/navigation";
+import NewsFormPage from "@/app/news-form/page"; // import forme
 
-type Article = {
+type Post = {
   slug: string;
+  title: string;
+  summary?: string;
   contentHtml: string;
-  contentCss?: string;
+  image?: string;
+  videoUrl?: string;
+  author?: string;
+  source?: string;
+  category?: string;
+  tags?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
+  status: string;
+  publishDate?: string;
+  readingTime?: number;
+  published: boolean;
 };
 
-export default function EditorSlugPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  // ✅ unwrap params
-  const { slug } = use(params);
-
-  const [article, setArticle] = useState<Article | null>(null);
+export default function FormEditor() {
+  const { slug } = useParams();
+  const [initialData, setInitialData] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchArticle = async () => {
-      const res = await fetch(`/api/posts?slug=${slug}`);
-      if (res.ok) {
+    const fetchPost = async () => {
+      try {
+        const res = await fetch(`/api/posts?slug=${slug}`);
+        if (!res.ok) throw new Error("Vijest nije pronađena");
         const data = await res.json();
-        setArticle(data);
+        setInitialData(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
-    fetchArticle();
+    fetchPost();
   }, [slug]);
 
-  if (loading) return <p className="p-10 text-yellow-400">Učitavanje...</p>;
-  if (!article)
-    return <p className="p-10 text-red-400">Vijest nije pronađena.</p>;
+  if (loading) return <p className="text-[#FFFF00] p-10">Učitavanje...</p>;
+  if (!initialData)
+    return <p className="text-red-400 p-10">Vijest nije pronađena.</p>;
 
-  return (
-    <div className="fixed inset-0 z-[9999] bg-gray-100 ">
-      <GrapesEditor initialData={article} />
-    </div>
-  );
+  // Prosljeđujemo podatke u formu
+  return <NewsFormPage initialData={initialData} />;
 }

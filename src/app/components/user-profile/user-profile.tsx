@@ -17,7 +17,7 @@ export const UserProfile = () => {
   const { name, email } = session.user;
 
   return (
-    <div className="bg-white/5 text-white p-6 rounded-2xl    w-[1230px] mx-auto mt-80 ">
+    <div className="bg-white/5 text-white p-6 rounded-2xl    w-[1230px] mx-auto mt-30 ">
       <h2 className="text-2xl font-bold mb-6 text-center text-white">
         Admin profil
       </h2>

@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const [code, setCode] = useState("");
   const [step, setStep] = useState<1 | 2>(1);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); // za spinner
   const router = useRouter();
 
   useEffect(() => {
@@ -22,20 +23,29 @@ export default function RegisterPage() {
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setMessage("Šaljem kod...");
-    const res = await fetch("/api/auth/send-code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: form.email }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      console.log("Verifikacioni kod:", data.code);
-      setStep(2);
-      setMessage("Kod je poslat na email.");
-    } else {
-      const data = await res.json();
-      setMessage(data.error || "Greška pri slanju koda.");
+
+    try {
+      const res = await fetch("/api/auth/send-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Verifikacioni kod:", data.code);
+        setStep(2);
+        setMessage("Kod je poslat na email.");
+      } else {
+        const data = await res.json();
+        setMessage(data.error || "Greška pri slanju koda.");
+      }
+    } catch (err: any) {
+      setMessage(err.message || "Greška pri slanju koda.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,19 +55,34 @@ export default function RegisterPage() {
       setMessage("Sva polja i verifikacioni kod su obavezni.");
       return;
     }
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, code }),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.removeItem("registerForm");
-      router.push("/login");
-    } else {
-      setMessage(data.error || "Greška pri registraciji.");
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, code }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.removeItem("registerForm");
+        router.push("/login");
+      } else {
+        setMessage(data.error || "Greška pri registraciji.");
+      }
+    } catch (err: any) {
+      setMessage(err.message || "Greška pri registraciji.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  // Spinner unutar dugmeta
+  const ButtonSpinner = () => (
+    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto" />
+  );
 
   return (
     <div className="flex w-screen h-screen">
@@ -70,7 +95,6 @@ export default function RegisterPage() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/30" />{" "}
-        {/* opcionalni overlay */}
       </div>
 
       {/* Desna polovina - register forma */}
@@ -110,6 +134,7 @@ export default function RegisterPage() {
                     required
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm mb-1 text-gray-300">
                     Email
@@ -124,6 +149,7 @@ export default function RegisterPage() {
                     required
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm mb-1 text-gray-300">
                     Lozinka
@@ -161,9 +187,16 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="w-full py-3 rounded-lg font-semibold bg-[#FFFF00] text-black transition"
+              className="w-full py-3 rounded-lg font-semibold bg-[#FFFF00] text-black flex justify-center items-center gap-2 transition"
+              disabled={loading}
             >
-              {step === 1 ? "Pošalji kod" : "Registruj se"}
+              {loading ? (
+                <ButtonSpinner />
+              ) : step === 1 ? (
+                "Pošalji kod"
+              ) : (
+                "Registruj se"
+              )}
             </button>
 
             <div className="text-sm text-center mt-4 text-gray-400">

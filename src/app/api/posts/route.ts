@@ -8,7 +8,6 @@ const ALLOWED_ORIGINS: string[] = [
   process.env.FRONTEND_URL ?? "",
 ].filter((o): o is string => Boolean(o));
 
-
 function withCors(req: Request, res: NextResponse) {
   const origin = req.headers.get("origin") || "";
   const allowedOrigin = ALLOWED_ORIGINS.includes(origin)
@@ -70,39 +69,82 @@ export async function GET(req: Request) {
   }
 }
 
-// --- POST: kreiranje nove vijesti ---
+// --- POST: kreiranje ili update vijesti ---
 export async function POST(req: Request) {
   try {
-    const { slug, contentHtml, contentCss } = await req.json();
-    if (!slug)
-      return withCors(
-        req,
-        NextResponse.json({ error: "Slug je obavezan." }, { status: 400 })
-      );
-    if (!contentHtml)
-      return withCors(
-        req,
-        NextResponse.json({ error: "Nedostaje sadržaj." }, { status: 400 })
-      );
+    const body = await req.json();
+    const {
+      slug,
+      title,
+      subtitle,
+      summary,
+      image,
+      gallery,
+      videoUrl,
+      author,
+      source,
+      category,
+      tags,
+      metaTitle,
+      metaDescription,
+      status,
+      publishDate,
+      readingTime,
+      contentHtml,
+      contentCss,
+    } = body;
 
-    const titleMatch = contentHtml.match(/<h1[^>]*>(.*?)<\/h1>/i);
-    const title = titleMatch ? titleMatch[1].trim() : slug;
-
-    let cleanHtml = contentHtml;
-    if (titleMatch) cleanHtml = cleanHtml.replace(/<h1[^>]*>.*?<\/h1>/i, "");
+    if (!slug || !title) {
+      return new Response(JSON.stringify({ error: "Slug i title su obavezni." }), { status: 400 });
+    }
 
     const savedPost = await prisma.post.upsert({
       where: { slug },
-      update: { title, contentHtml: cleanHtml, contentCss },
-      create: { slug, title, contentHtml: cleanHtml, contentCss },
+      update: {
+        title,
+        subtitle: subtitle || null,
+        summary: summary || null,
+        image: image || null,
+        gallery: gallery || [],
+        videoUrl: videoUrl || null,
+        author: author || null,
+        source: source || null,
+        category: category || null,
+        tags: tags || [],
+        metaTitle: metaTitle || null,
+        metaDescription: metaDescription || null,
+        status: status || "draft",
+        publishDate: publishDate ? new Date(publishDate) : null,
+        readingTime: readingTime || null,
+        contentHtml: contentHtml || null,
+        contentCss: contentCss || null,
+      },
+      create: {
+        slug,
+        title,
+        subtitle: subtitle || null,
+        summary: summary || null,
+        image: image || null,
+        gallery: gallery || [],
+        videoUrl: videoUrl || null,
+        author: author || null,
+        source: source || null,
+        category: category || null,
+        tags: tags || [],
+        metaTitle: metaTitle || null,
+        metaDescription: metaDescription || null,
+        status: status || "draft",
+        publishDate: publishDate ? new Date(publishDate) : null,
+        readingTime: readingTime || null,
+        contentHtml: contentHtml || null,
+        contentCss: contentCss || null,
+      },
     });
 
-    return withCors(req, NextResponse.json(savedPost, { status: 201 }));
+    return new Response(JSON.stringify(savedPost), { status: 201 });
   } catch (error) {
-    console.error("❌ API /api/posts error:", error);
-    return withCors(
-      req,
-      NextResponse.json({ error: "Greška na serveru." }, { status: 500 })
-    );
+    console.error("❌ API /posts error:", error);
+    return new Response(JSON.stringify({ error: "Greška na serveru." }), { status: 500 });
   }
 }
+
