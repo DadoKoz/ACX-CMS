@@ -117,7 +117,7 @@ export default function NewsPage() {
       {/* EDIT gumb */}
       <div className="mt-6 flex justify-end">
         <button
-          onClick={() => router.push(`/editor/${article.slug}`)}
+          onClick={() => router.push(`/news-editor/${article.slug}`)}
           className="bg-[#FFFF00] text-black px-6 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition"
         >
           Edituj vijest

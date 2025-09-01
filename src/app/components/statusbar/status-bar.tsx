@@ -32,7 +32,7 @@ const StatusBar = () => {
   };
 
   return (
-    <div className="w-full h-[65px] bg-white/7 text-white flex items-center px-4 justify-between relative">
+    <div className="w-full h-[65px] bg-black text-white flex items-center px-4 justify-between relative">
       {/* Logo centriran */}
       <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
         <img src="/logo-light.svg" alt="Logo" className="w-20 h-20" />

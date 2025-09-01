@@ -35,7 +35,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Važno: meta viewport za konsistentnu veličinu */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
@@ -43,7 +42,6 @@ export default function RootLayout({
       >
         <SessionProvider>
           <QueryClientProvider client={queryClient}>
-            {/* Statusbar i Sidebar prikazujemo samo na normalnim stranicama */}
             {!isAuthPage && !isEditorPage && (
               <>
                 {/* StatusBar na vrhu */}
@@ -51,10 +49,8 @@ export default function RootLayout({
                   <StatusBar />
                 </div>
 
-                {/* Sidebar fiksiran uz levu ivicu i vertikalno centriran */}
-                <div className="fixed top-1/2 left-0 transform -translate-y-1/2 z-10">
-                  <Sidebar />
-                </div>
+                {/* Sidebar: responsive */}
+                <Sidebar />
               </>
             )}
 
@@ -68,7 +64,7 @@ export default function RootLayout({
               <div
                 className={
                   !isAuthPage && !isEditorPage
-                    ? "flex-1 max-w-7xl mx-auto w-full px-4 py-4 mt-16" // mt-16 rezerviše prostor za StatusBar
+                    ? "flex-1 max-w-7xl mx-auto w-full px-4 py-4 mt-16 md:mt-0" // mt-16 rezerviše prostor za StatusBar
                     : "w-full h-full"
                 }
               >

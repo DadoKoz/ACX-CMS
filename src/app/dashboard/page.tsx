@@ -134,7 +134,7 @@ const DashboardPage = () => {
                     )}
                   </div>
                   <Link
-                    href={`/news/${a.slug}`}
+                    href={`/single-news/${a.slug}`}
                     className="text-yellow hover:text-yellow/80 transition p-2 rounded-full"
                   >
                     <Edit3 className="w-5 h-5 text-[#FFFF00]" />

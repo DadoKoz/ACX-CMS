@@ -100,12 +100,8 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto mt-20 p-10 space-y-3 rounded-xl bg-white/5"
+      className="max-w-2xl mx-auto mt-10 p-10 space-y-3 rounded-xl bg-white/5"
     >
-      {/* <h1 className="text-xl font-bold text-[#FFFF00] text-center mb-2">
-        Vijest
-      </h1> */}
-
       {/* Naslov i Slug */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         <input
@@ -123,14 +119,14 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
                 .replace(/[^a-z0-9-]/g, ""),
             });
           }}
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
         <input
           type="text"
           placeholder="Slug (URL)"
           value={formData.slug}
           onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
       </div>
 
@@ -140,7 +136,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
         placeholder="Kratki opis"
         value={formData.summary}
         onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
-        className="w-full p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+        className="w-full p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
       />
 
       <textarea
@@ -150,7 +146,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           setFormData({ ...formData, contentHtml: e.target.value })
         }
         rows={4}
-        className="w-full h-[300px] p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] resize-none outline-none"
+        className="w-full h-[230px] p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] resize-none outline-none"
       />
 
       {/* Slika i video */}
@@ -160,7 +156,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           placeholder="URL slike"
           value={formData.image}
           onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
         <input
           type="text"
@@ -169,7 +165,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           onChange={(e) =>
             setFormData({ ...formData, videoUrl: e.target.value })
           }
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
       </div>
 
@@ -180,14 +176,14 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           placeholder="Autor"
           value={formData.author}
           onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
         <input
           type="text"
           placeholder="Izvor"
           value={formData.source}
           onChange={(e) => setFormData({ ...formData, source: e.target.value })}
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
       </div>
 
@@ -200,7 +196,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           onChange={(e) =>
             setFormData({ ...formData, category: e.target.value })
           }
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
         <input
           type="text"
@@ -212,7 +208,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
               tags: e.target.value.split(",").map((t) => t.trim()),
             })
           }
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
       </div>
 
@@ -225,7 +221,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           onChange={(e) =>
             setFormData({ ...formData, metaTitle: e.target.value })
           }
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
         <input
           type="text"
@@ -234,7 +230,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           onChange={(e) =>
             setFormData({ ...formData, metaDescription: e.target.value })
           }
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
       </div>
 
@@ -246,7 +242,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           onChange={(e) =>
             setFormData({ ...formData, publishDate: e.target.value })
           }
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
         <input
           type="number"
@@ -255,7 +251,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
           onChange={(e) =>
             setFormData({ ...formData, readingTime: e.target.value })
           }
-          className="p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+          className="p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
         />
       </div>
 
@@ -263,7 +259,7 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
       <select
         value={formData.status}
         onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-        className="w-full p-1 text-sm rounded bg-white/5 text-white focus:border-[#FFFF00] outline-none"
+        className="w-full p-1 text-sm rounded-2xl bg-white/5 text-white focus:border-[#FFFF00] outline-none"
       >
         <option value="draft">Draft</option>
         <option value="published">Published</option>
@@ -274,13 +270,13 @@ const NewsFormPage = ({ initialData }: NewsFormPageProps) => {
         <button
           type="button"
           onClick={() => router.push("/dashboard")}
-          className="px-3 py-1 text-sm rounded bg-white/5 border border-gray-600 text-white hover:bg-gray-600 transition"
+          className="px-3 py-1 text-sm rounded-2xl bg-white/5 border border-gray-600 text-white hover:bg-gray-600 transition"
         >
           Odustani
         </button>
         <button
           type="submit"
-          className="px-3 py-1 text-sm rounded bg-[#FFFF00] text-black font-semibold hover:bg-yellow-400 transition"
+          className="px-3 py-1 text-sm rounded-2xl bg-[#FFFF00] text-black font-semibold hover:bg-yellow-400 transition"
         >
           Spremi
         </button>
