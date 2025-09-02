@@ -47,7 +47,7 @@ const PromotionsPage = () => {
   ];
 
   return (
-    <div className="container mx-auto p-4 space-y-8 mt-10">
+    <div className="container mx-auto p-4 space-y-8 mt-30">
       {/* Kartice statistike */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((s, i) => (

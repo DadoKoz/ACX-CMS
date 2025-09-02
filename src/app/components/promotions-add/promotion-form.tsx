@@ -129,7 +129,7 @@ const PromotionForm = ({ initialData }: PromotionFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-3xl mx-auto mt-10 p-8 space-y-4 rounded-xl bg-white/5"
+      className="max-w-3xl mx-auto mt-30 p-8 space-y-4 rounded-2xl bg-white/5"
     >
       <input
         type="text"

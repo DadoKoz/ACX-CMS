@@ -62,7 +62,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-2xl mx-auto text-white mt-20">
+    <div className="w-full max-w-screen-2xl mx-auto text-white mt-35">
       {/* Statistika */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {[
